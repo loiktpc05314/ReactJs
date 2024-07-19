@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import axios from '../../../config/axiosConfig';
 import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,43 +11,36 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from '../../Components/ConfirmationModal/ConfirmationModal';
 import { DownloadTableExcel } from 'react-export-table-to-excel';
+
 function ReadBooks() {
-	const [books, setBooks] = useState([]);
+	const [books, setBooks] = useState([
+		{
+			id: 1,
+			question: 'What is React?',
+			replies: 10,
+			ans: 'A JavaScript library for building user interfaces.',
+			description:
+				'React is a declarative, efficient, and flexible JavaScript library for building user interfaces.',
+			tag: 'React',
+			time: '2024-07-19T12:34:56Z',
+		},
+		{
+			id: 2,
+			question: 'What is Node.js?',
+			replies: 5,
+			ans: "A JavaScript runtime built on Chrome's V8 JavaScript engine.",
+			description:
+				"Node.js is a platform built on Chrome's JavaScript runtime for easily building fast, scalable network applications.",
+			tag: 'Node.js',
+			time: '2024-07-18T08:21:44Z',
+		},
+	]);
+
 	const [currentPage, setCurrentPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
-	const [totalCount, setTotalCount] = useState(0);
-	const [genres, setGenres] = useState({});
-	const [authors, setAuthors] = useState([]);
+	const [totalCount, setTotalCount] = useState(books.length);
 	const [selectedBook, setSelectedBook] = useState(null);
 	const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-
-	const tableRef = useRef(null);
-	useEffect(() => {
-		async function fetchData() {
-			try {
-				const [booksResponse, genresResponse, authorsResponse] =
-					await Promise.all([
-						axios.get(`/book?page=${currentPage}`),
-						axios.get('/genres'),
-						axios.get('/author'),
-					]);
-				setBooks(booksResponse.data.book);
-				setTotalPages(booksResponse.data.totalPages);
-				setTotalCount(booksResponse.data.totalCount);
-				setGenres(genresResponse.data);
-				setAuthors(authorsResponse.data);
-			} catch (error) {
-				console.error('Error fetching data:', error);
-			}
-		}
-
-		fetchData();
-	}, [currentPage]);
-
-	const handleDelete = (book) => {
-		setSelectedBook(book);
-		setIsConfirmationOpen(true);
-	};
 
 	const handleCloseConfirmation = () => {
 		setSelectedBook(null);
@@ -58,9 +51,9 @@ function ReadBooks() {
 		if (!selectedBook) return;
 
 		try {
-			await axios.delete(`/book/${selectedBook._id}`);
+			await axios.delete(`/book/${selectedBook.id}`);
 			const updatedBooks = books.filter(
-				(book) => book._id !== selectedBook._id,
+				(book) => book.id !== selectedBook.id,
 			);
 			setBooks(updatedBooks);
 			setTotalCount(totalCount - 1);
@@ -69,6 +62,7 @@ function ReadBooks() {
 			console.error('Error delete:', error);
 		}
 	};
+
 	return (
 		<section>
 			<div className="flex items-center">
@@ -77,14 +71,10 @@ function ReadBooks() {
 						type="button"
 						className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
 					>
-						Thêm
+						Add
 					</button>
 				</Link>
-				<DownloadTableExcel
-					filename="users table"
-					sheet="users"
-					currentTableRef={tableRef.current}
-				>
+				<DownloadTableExcel filename="users table" sheet="users">
 					<button title="Xuất file excel">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -142,11 +132,8 @@ function ReadBooks() {
 			</div>
 
 			<div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
-				<table
-					className="w-full text-left table-auto min-w-max"
-					ref={tableRef}
-				>
-					<thead >
+				<table className="w-full text-left table-auto min-w-max">
+					<thead>
 						<tr>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
@@ -155,50 +142,41 @@ function ReadBooks() {
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Tên sách
+									Question
 								</p>
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Ảnh
+									Replies
 								</p>
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Hình thức sử dụng
+									Ans
 								</p>
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Mô tả
+									Description
 								</p>
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									File PDF
+									Tag
 								</p>
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Ngày xuất bản
+									Time
 								</p>
 							</th>
-							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Thể loại
-								</p>
-							</th>
-							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Tác giả
-								</p>
-							</th>
+
 							<th
 								colSpan={2}
 								className="p-4 border-b border-blue-gray-100 bg-blue-gray-50"
 							>
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Hành động
+									Action
 								</p>
 							</th>
 						</tr>
@@ -214,92 +192,33 @@ function ReadBooks() {
 
 								<td className="p-4 border-b border-blue-gray-50">
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-										{book.name}
+										{book && book.question}
 									</p>
 								</td>
 								<td className="p-4 border-b border-blue-gray-50">
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-										{book.images &&
-											book.images.map(
-												(imageUrl, imageIndex) => (
-													<div key={imageIndex}>
-														<img
-															className="w-20 h-20"
-															src={imageUrl}
-															alt={`book-image-${imageIndex}`}
-														/>
-													</div>
-												),
-											)}
+										{book && book.replies}
 									</p>
 								</td>
 								<td className="p-4 border-b border-blue-gray-50">
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-										{book.premium ? 'Trả phí' : 'Miễn phí'}
+										{book && book.ans}
 									</p>
 								</td>
 								<td className="p-4 border-b border-blue-gray-50">
-								<p
-											className="text-balance mx-auto font-sans text-base antialiased font-light leading-relaxed text-inherit"
-											dangerouslySetInnerHTML={{
-												__html:
-													book.content.length > 100
-														? book.content.substring(
-																0,
-																100,
-															) + '...'
-														: book.content,
-											}}
-										></p>
+									{book && book.description}
 								</td>
 								<td className="p-4 border-b border-blue-gray-50">
-									<a
-										target="_blank"
-										href={`https://drive.google.com/file/d/${book && book.pdfUrl}/preview`}
-										className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900"
-									>
-										<FontAwesomeIcon
-											icon={faFilePdf}
-											className="text-xl"
-										/>
-									</a>
+									{book && book.tag}
 								</td>
 								<td className="p-4 border-b border-blue-gray-50">
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-										{book.publishedDate}
+										{book && book.time}
 									</p>
 								</td>
+
 								<td className="p-4 border-b border-blue-gray-50">
-									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-										{book.genres.map((genreId) => {
-											const genre = genres.find(
-												(g) => g._id === genreId,
-											);
-											return (
-												<span
-													key={genreId}
-													className="inline-block px-2 py-1 mr-1 text-sm font-semibold leading-none text-blue-700 bg-blue-100 rounded-full"
-												>
-													{genre
-														? genre.name
-														: 'Unknown Genre'}
-												</span>
-											);
-										})}
-									</p>
-								</td>
-								<td className="p-4 border-b border-blue-gray-50">
-									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-										{authors.find(
-											(author) =>
-												author._id === book.author,
-										)?.name || 'Chưa có'}
-									</p>
-								</td>
-								<td className="p-4 border-b border-blue-gray-50">
-									<Link
-										to={`/admin/books/edit-book/${book._id}`}
-									>
+									<Link>
 										{' '}
 										<button
 											type="button"
@@ -310,10 +229,7 @@ function ReadBooks() {
 											/>
 										</button>
 									</Link>
-									<button
-										onClick={() => handleDelete(book)}
-										className="text-white bg-red-700 text-xs font-medium hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg px-2 py-2 me-1 mb-2"
-									>
+									<button className="text-white bg-red-700 text-xs font-medium hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg px-2 py-2 me-1 mb-2">
 										<FontAwesomeIcon icon={faTrash} />
 									</button>
 

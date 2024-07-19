@@ -1,6 +1,13 @@
 import { Link } from 'react-router-dom';
-import CardsBooks from '../CardsBooks/CarsBooks';
-import Filter from '../Filter/Filter';
+import banner from '../../../public/assets/images/banner.png';
+import icon1 from '../../../public/assets/svg/sequelize.svg';
+import icon2 from '../../../public/assets/svg/apache.svg';
+import icon3 from '../../../public/assets/svg/github.svg';
+import icon4 from '../../../public/assets/svg/express.svg';
+import icon5 from '../../../public/assets/svg/ember.svg';
+import icon6 from '../../../public/assets/svg/electron.svg';
+import icon7 from '../../../public/assets/svg/django.svg';
+import icon8 from '../../../public/assets/svg/ceylon.svg';
 
 const HomePage = () => {
 	return (
@@ -17,33 +24,21 @@ const HomePage = () => {
 									/>
 								</div>
 								<div className="lg:max-w-xl lg:pr-5 relative z-40">
-									<p className="flex text-sm uppercase text-g1  ">
-										Premium account
-									</p>
-									<h2 className="mb-6 max-w-lg text-5xl font-light leading-snug tracking-tight text-g1 sm:text-7xl sm:leading-snug">
-										Đăng kí ngay
-										<span className="my-1 inline-block border-b-8 border-g4 bg-white px-4 font-bold text-g4 animate__animated animate__flash">
-											giảm 20%
-										</span>
+									<h2 className="mb-6 max-w-lg text-xl font-light leading-snug tracking-tight text-g1 sm:text-5xl sm:leading-snug">
+										Every developer has a tab open to Be
+										Solution
 									</h2>
-									<p className="text-base text-gray-700">
-										Trải nghiệm sự khác biệt của Premium account
-									</p>
+
 									<div className="mt-10 flex flex-col items-center md:flex-row">
-									<Link to="/pricing">
-											<a
-												
-												className="mb-3 inline-flex h-12 w-full items-center justify-center rounded bg-gray-900 px-6 font-medium tracking-wide text-white shadow-md transition  focus:outline-none md:mr-4 md:mb-0 md:w-auto"
-											>
-												Đăng kí
+										<Link to="/pricing">
+											<a className="mb-3 inline-flex h-12 w-full items-center justify-center rounded bg-gray-900 px-6 font-medium tracking-wide text-white shadow-md transition  focus:outline-none md:mr-4 md:mb-0 md:w-auto">
+												Login
 											</a>
-									</Link>
+										</Link>
 										<a
-											
 											aria-label=""
 											className="group inline-flex items-center font-semibold text-g1"
 										>
-											
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
 												className="ml-4 h-6 w-6 transition-transform group-hover:translate-x-2"
@@ -78,7 +73,7 @@ const HomePage = () => {
 									></path>
 								</svg>
 								<div className="abg-orange-400 mx-auto w-fit overflow-hidden rounded-[6rem] rounded-br-none rounded-tl-none">
-									<img src="https://www.freevector.com/uploads/vector/preview/28775/Kids-Reading.jpg" />
+									<img src={banner} />
 								</div>
 							</div>
 						</div>
@@ -134,8 +129,41 @@ const HomePage = () => {
 					</div>
 				</div>
 			</div>
-			<Filter/>
-			<CardsBooks />
+			<h2>
+				With Be Solution
+			</h2>
+			<div className='my-4'>
+<div className='flex justify-around'>
+<div>
+	<h2 className='text-4xl font-bold'>Questions</h2>
+	<p className='text-center'>4000/day</p>
+</div>
+<div>
+	<h2 className='text-4xl font-bold'>Online</h2>
+	<p className='text-center'>10000/day</p>
+</div>
+<div>
+	<h2 className='text-4xl font-bold'>Partner</h2>
+	<p className='text-center'>3000</p>
+</div>
+</div>
+			</div>
+			<h2>
+				Explore technical topics and other disciplines across 170+ Q&A
+				communities
+			</h2>
+
+			<div className="mx-auto grid grid-cols-2 md:grid-cols-4 gap-3 p-4 max-w-[400px] md:max-w-[600px] place-items-center">
+				<img className="hover:opacity-75" src={icon1} />
+				<img className="hover:opacity-75" src={icon2} />
+				<img className="hover:opacity-75" src={icon3} />
+				<img className="hover:opacity-75" src={icon4} />
+				<img className="hover:opacity-75" src={icon5} />
+				<img className="hover:opacity-75" src={icon6} />
+				<img className="hover:opacity-75" src={icon7} />
+				<img className="hover:opacity-75" src={icon8} />
+			</div>
+			
 		</section>
 	);
 };

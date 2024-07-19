@@ -31,7 +31,7 @@ const publicRoutes=[
     {path:'/login',component:Login},
     {path:'/register',component:Register},
     {path:'/user/:id',component:Profile},
-    {path:'/authors',component:Authors},
+    {path:'/users',component:Authors},
     {path:'/book/:id',component:DetailBook},
     {path:'/author/:id',component:Author},
     {path:'/genres/:id',component:Genres},
