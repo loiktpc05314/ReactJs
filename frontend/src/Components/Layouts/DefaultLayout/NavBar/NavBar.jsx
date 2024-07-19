@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCrown, faUser } from '@fortawesome/free-solid-svg-icons';
-import logo from '../../../../assets/img/open-book.png';
+import logo from '../../../../../public/assets/images/logo.png';
 import SearchBooks from './Search/Search';
 import handleLogout from '../../../Logout/Logout';
 
@@ -19,11 +19,11 @@ function Navbar() {
 			<div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-2 box-border">
 				<Link
 					to={'/'}
-					className="flex items-center space-x-3 rtl:space-x-reverse"
+					className="flex items-center space-x-1 rtl:space-x-reverse"
 				>
-					<img src={logo} className="h-10" alt="Logo" />
+					<img src={logo} className="h-14 w-20" alt="Logo" />
 					<span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-						BookWander
+						Be Solution
 					</span>
 				</Link>
 				<div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
@@ -165,7 +165,7 @@ function Navbar() {
 						</li>
 						<li>
 							<Link
-								to="/posts"
+								to="/users"
 								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
 							>
 								Users

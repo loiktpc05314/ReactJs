@@ -1,21 +1,37 @@
 import { useState, useEffect } from 'react';
-import axios from '../../config/axiosConfig';
 import { Link } from 'react-router-dom';
 const Authors = () => {
-    const [authors, setAuthors] = useState([]);
+	const [authors, setAuthors] = useState([]);
+	const sampleAuthors = [
+		{
+			id: 1,
+			name: 'John Doe',
+			image: 'https://i.pravatar.cc/150?img=2',
+			books: ['Book 1', 'Book 2'],
+		},
+		{
+			id: 2,
+			name: 'Jane Smith',
+			image: 'https://i.pravatar.cc/150?img=7',
+			books: ['Book 3'],
+		},
+		{
+			id: 3,
+			name: 'Alice Johnson',
+			image: 'https://i.pravatar.cc/150?img=10',
+			books: ['Book 4', 'Book 5', 'Book 6'],
+		},
+		{
+			id: 3,
+			name: 'Alice Johnson',
+			image: 'https://i.pravatar.cc/150?img=10',
+			books: ['Book 4', 'Book 5', 'Book 6'],
+		},
+	];
 
-    useEffect(() => {
-        const getAuthors = async () => {
-            try {
-                const resAuthors = await axios.get('/author');
-                setAuthors(resAuthors.data);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        getAuthors();
-    }, []);
-
+	useEffect(() => {
+		setAuthors(sampleAuthors);
+	}, [authors]);
 	return (
 		<div className="grid grid-cols-4 gap-4 ">
 			{authors &&
@@ -33,20 +49,24 @@ const Authors = () => {
 										<h3 className="font-bold text-2xl text-gray-800 dark:text-white mb-1">
 											{author && author.name}
 										</h3>
-							
 									</div>
 								</div>
 								<div className="flex justify-center px-2">
 									<Link to={`/author/${author._id}`}>
-									    <button className="flex-1 rounded-full border-2 border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2">
-    										Xem chi tiết
-    									</button>
+										<button className="flex-1 rounded-full border-2 border-gray-400 dark:border-gray-700 font-semibold text-black dark:text-white px-4 py-2">
+											Xem chi tiết
+										</button>
 									</Link>
 								</div>
 							</div>
 							<div className="px-4 py-4">
 								<div className="flex gap-2 items-center text-gray-800 dark:text-gray-300 mb-4">
-								<img width="25" height="25" src="https://img.icons8.com/ios/50/book--v1.png" alt="book--v1"/>
+									<img
+										width="25"
+										height="25"
+										src="https://img.icons8.com/ios/50/book--v1.png"
+										alt="book--v1"
+									/>
 									<span>
 										<strong className="text-black dark:text-white">
 											{author && author.books.length}
