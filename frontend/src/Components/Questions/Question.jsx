@@ -25,7 +25,7 @@ function QuestionsPage() {
                                             />
                                         </div>
                                         <div className="pb-5 mb-5 flex-[3] pl-2">
-                                            <Link to="" className="mb-[6px] text-2xl hover:text-blue-500">
+                                            <Link to="/detailquestion" className="mb-[6px] text-2xl hover:text-blue-500">
                                                 How to output the correlation/euclidian value for the dendogram in pheatmap R?
                                             </Link>
                                             <p className="mb-4 italic">

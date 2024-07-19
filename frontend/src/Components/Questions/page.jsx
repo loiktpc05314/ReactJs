@@ -1,6 +1,6 @@
 import React from "react";
 
-import QuestionsPage from './Questions';
+import QuestionsPage from './Question';
 
 function PageQuestions(){
     return(<>

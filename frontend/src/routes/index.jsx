@@ -11,6 +11,7 @@ import Profile from "../Components/Profile/Profile"
 import Register from "../Components/Register/Register";
 import PricingCard from "../Service/PricingCard/PricingCard"
 import PageQuestions from '../Components/Questions/page';
+import PageDetailQuestion from '../Components/DetailQuestions/page';
 
 //Admin routes
 import FormAuthor from "../admin/Actions/Authors/FormAuthor"
@@ -38,6 +39,7 @@ const publicRoutes=[
     {path:'/posts/:id',component:DetailPosts},
     {path:'/pricing',component:PricingCard},
     {path:'/questions',component:PageQuestions},
+    {path:'/detailquestion',component:PageDetailQuestion},
 ]
 
 
