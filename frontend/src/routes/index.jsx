@@ -9,6 +9,7 @@ import DetailPosts from "../Components/Posts/DetailPost"
 import Posts from "../Components/Posts/Posts"
 import Profile from "../Components/Profile/Profile"
 import Register from "../Components/Register/Register";
+import Tags from "../Components/tags/Tags"
 import PricingCard from "../Service/PricingCard/PricingCard"
 
 //Admin routes
@@ -36,6 +37,7 @@ const publicRoutes=[
     {path:'/posts',component:Posts},
     {path:'/posts/:id',component:DetailPosts},
     {path:'/pricing',component:PricingCard},
+    {path:'/tags',component:Tags},
 ]
 
 
