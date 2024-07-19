@@ -1,4 +1,5 @@
 //User routes
+import Ask from "../Components/Ask/Ask"
 import Author from "../Components/Author/Author"
 import Authors from "../Components/Authors/Authors"
 import DetailBook from "../Components/DetailBook/DetailBook"
@@ -9,7 +10,7 @@ import DetailPosts from "../Components/Posts/DetailPost"
 import Posts from "../Components/Posts/Posts"
 import Profile from "../Components/Profile/Profile"
 import Register from "../Components/Register/Register";
-import Tags from "../Components/tags/Tags"
+import Tags from "../Components/Tags/Tags"
 import PricingCard from "../Service/PricingCard/PricingCard"
 
 //Admin routes
@@ -38,6 +39,7 @@ const publicRoutes=[
     {path:'/posts/:id',component:DetailPosts},
     {path:'/pricing',component:PricingCard},
     {path:'/tags',component:Tags},
+    {path:'/ask',component: Ask},
 ]
 
 
