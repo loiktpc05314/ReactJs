@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import './App.css';
-import { jwtDecode } from 'jwt-decode';
+// import { jwtDecode } from 'jwt-decode';
 import { publicRoutes, adminRoutes } from './routes';
 import DefaultLayout from './Components/Layouts/DefaultLayout';
 import AdminLayouts from './admin/Layouts';
