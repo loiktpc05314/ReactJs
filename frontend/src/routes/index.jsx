@@ -2,7 +2,7 @@
 import Ask from '../Components/Ask/Ask';
 import Author from '../Components/Author/Author';
 import Authors from '../Components/Authors/Authors';
-import DetailBook from '../Components/DetailBook/DetailBook';
+// import DetailBook from '../Components/DetailBook/DetailBook';
 import Genres from '../Components/Genres/Genres';
 import HomePage from '../Components/Home/HomePage';
 import Login from '../Components/Login/Login';
@@ -35,7 +35,7 @@ const publicRoutes = [
 	{ path: '/register', component: Register },
 	{ path: '/user/:id', component: Profile },
 	{ path: '/users', component: Authors },
-	{ path: '/book/:id', component: DetailBook },
+	// { path: '/book/:id', component: DetailBook },
 	{ path: '/author/:id', component: Author },
 	{ path: '/genres/:id', component: Genres },
 	{ path: '/posts', component: Posts },
