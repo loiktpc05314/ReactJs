@@ -15,13 +15,13 @@ function ReadUsers() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await axios.get('/user');
-                setUsers(res.data);
+                const res = await axios.get('users');
+                setUsers(res.data.data);
             } catch (error) {
                 console.error('Error fetching user data:', error);
             }
         }
-
+        
         fetchData();
     }, [isConfirmationOpen]);
 
@@ -37,9 +37,9 @@ function ReadUsers() {
 
     const handleConfirmDelete = async () => {
         if (!selectedUser) return;
-
+        console.log(selectedUser);
         try {
-            await axios.delete(`/user/${selectedUser._id}`);
+            await axios.delete(`users/${selectedUser._id}`);
             toast.success('User deleted successfully');
 
             handleCloseConfirmation();
@@ -87,11 +87,7 @@ function ReadUsers() {
                                     Vai trò
                                 </p>
                             </th>
-                            <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
-                                <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-                                    Đã theo dõi
-                                </p>
-                            </th>
+                           
                             <th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
                                 <p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
                                     Hành động
@@ -109,7 +105,7 @@ function ReadUsers() {
                                 </td>
                                 <td className="p-4 border-b border-blue-gray-50">
                                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                        {user&& user.username}
+                                        {user&& user?.username}
                                     </p>
                                 </td>
                                 <td className="p-4 border-b border-blue-gray-50">
@@ -124,23 +120,20 @@ function ReadUsers() {
                                 </td>
                                 <td className="p-4 border-b border-blue-gray-50">
                                     <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                        {user&& user.admin ?"Admin":"User"}
+                                        {user&& user.role }
                                     </p>
                                 </td>
+                               
                                 <td className="p-4 border-b border-blue-gray-50">
-                                    <p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-                                        {user&& user.hasFollow.length}
-                                    </p>
-                                </td>
-                                <td className="p-4 border-b border-blue-gray-50">
-                                    <Link to={`/admin/user/edit-user/${user._id}`}>
+                                    {!user.uid && (<Link to={`/admin/user/edit-user/${user._id}`}>
                                         <button
                                             type="button"
                                             className="text-white bg-blue-700 text-xs font-medium hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 rounded-lg px-2 py-2 me-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
                                         >
                                             <FontAwesomeIcon icon={faPenToSquare} />
                                         </button>
-                                    </Link>
+                                    </Link>)}
+                                    
                                     <button
                                         onClick={() => handleDelete(user)}
                                         className="text-white bg-red-700 text-xs font-medium hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg px-2 py-2 me-1 mb-2"
