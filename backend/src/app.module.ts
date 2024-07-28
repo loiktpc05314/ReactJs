@@ -7,15 +7,11 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import cors from 'cors'
 //Modules
-import { ArticleModule } from './apis/articles/article.module';
 import { TopicModule } from './apis/topics/topic.module';
 import { FavoritesModule } from './apis/favorites/favorites.module';
-import { EpisodeModule } from './apis/articles copy/episode.module';
 import { UserModule } from './apis/users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './auth/JWT/jwt.decode';
-import { CommentModule } from './socket/comments/comment.module';
-import { NotificationModule } from './socket/notification/nofication.module';
 import { PostModule } from './apis/posts/post.module';
 
 
@@ -25,9 +21,6 @@ import { PostModule } from './apis/posts/post.module';
     AuthModule,
     PostModule,
     FavoritesModule,
-    EpisodeModule,
-    CommentModule,
-   NotificationModule,
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MongooseModule.forRoot(process.env.DB_URL),
   ],
