@@ -16,14 +16,14 @@ import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './auth/JWT/jwt.decode';
 import { CommentModule } from './socket/comments/comment.module';
 import { NotificationModule } from './socket/notification/nofication.module';
+import { PostModule } from './apis/posts/post.module';
 
 
 @Module({
   imports: [
     UserModule,
     AuthModule,
-    ArticleModule,
-    TopicModule,
+    PostModule,
     FavoritesModule,
     EpisodeModule,
     CommentModule,

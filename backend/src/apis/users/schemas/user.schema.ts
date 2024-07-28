@@ -9,7 +9,8 @@ export enum UserRole {
 
 @Schema({ timestamps: true })
 export class User {
-
+  @Prop()
+  _id: string;
   @Prop()
   uid?: string;
   @Prop()
