@@ -27,6 +27,7 @@ import ReadPremiumUser from '../admin/Actions/PremiumUsers/PremiumUsers';
 import FormUser from '../admin/Actions/User/FormUser';
 import ReadUsers from '../admin/Actions/User/ReadUser';
 import Dashboard from '../admin/Components/Dashboard/Dashboard';
+import ReplItEmbed from '../Components/Edittor/Edittor';
 
 
 const publicRoutes = [
@@ -47,6 +48,7 @@ const publicRoutes = [
 	{ path: '/detailquestion', component: PageDetailQuestion },
 	{ path: '/ask', component: Ask },
 	{ path: '/tags', component: Tags },
+	{ path: '/editor', component: ReplItEmbed },
 ];
 
 const adminRoutes = [

@@ -1,24 +1,12 @@
-import  { useState } from 'react';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import React from 'react';
 
-const MyEditor = () => {
-  const [editorData, setEditorData] = useState('');
-
+const ReplItEmbed = () => {
   return (
-    <div>
-      <h2>CKEditor 5 in React</h2>
-      <CKEditor
-        editor={ClassicEditor}
-        data={editorData}
-        onChange={(event, editor) => {
-          const data = editor.getData();
-          setEditorData(data);
-          console.log({ event, editor, data });
-        }}
-      />
-    </div>
+    <iframe
+      src="https://replit.com/@hieu78544/CrowdedFlawlessQuote?lite=true"
+      style={{ width: '100%', height: '500px', border: 'none' }}
+    ></iframe>
   );
 };
 
-export default MyEditor;
+export default ReplItEmbed;

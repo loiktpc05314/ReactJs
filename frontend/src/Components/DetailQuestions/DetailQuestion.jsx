@@ -5,6 +5,8 @@ import { Image, Button  } from "antd";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './style.css';
+import CommentSection from "../Comment/CommentSection";
+
 
 function DetailQuestion(){
     const [value, setValue] = useState('');
@@ -110,6 +112,7 @@ function DetailQuestion(){
                     </div>
                 </div>
             </div>
+            <CommentSection />
         </div>
     );
 }

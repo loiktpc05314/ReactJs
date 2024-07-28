@@ -5,6 +5,7 @@ import DetailQuestion from './DetailQuestion';
 function PageDetailQuestion(){
     return(<>
         <DetailQuestion />
+        
     </>)
 };
 
