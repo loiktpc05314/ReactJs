@@ -18,7 +18,7 @@ function FormUser() {
         const fetchData = async () => {
             if (isEditForm) {
                 try {
-                    const response = await axios.get(`users/${id}`);
+                    const response = await axios.get(`/users/${id}`);
                     const userData = response.data.data;
                     formik.setValues({
                         username: userData.username,
