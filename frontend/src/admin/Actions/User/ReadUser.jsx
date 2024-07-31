@@ -15,7 +15,7 @@ function ReadUsers() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const res = await axios.get('users');
+                const res = await axios.get('/users');
                 setUsers(res.data.data);
             } catch (error) {
                 console.error('Error fetching user data:', error);
@@ -39,7 +39,7 @@ function ReadUsers() {
         if (!selectedUser) return;
         console.log(selectedUser);
         try {
-            await axios.delete(`users/${selectedUser._id}`);
+            await axios.delete(`/users/${selectedUser._id}`);
             toast.success('User deleted successfully');
 
             handleCloseConfirmation();
