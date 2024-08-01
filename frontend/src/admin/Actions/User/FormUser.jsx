@@ -11,35 +11,28 @@ function FormUser() {
     const { id } = useParams();
     const isEditForm = Boolean(id);
     const navigate = useNavigate();
-
     const [imageFile, setImageFile] = useState(null);
     const [processing, setProcessing] = useState(false);
+
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                
-                if (isEditForm) {
-                   
-                    const response = await axios.get(`/user/${id}`);
-                    const userData = response.data;
-    
-                  
+            if (isEditForm) {
+                try {
+                    const response = await axios.get(`/users/${id}`);
+                    const userData = response.data.data;
                     formik.setValues({
                         username: userData.username,
                         email: userData.email,
-                      
+                        role: userData.role === 'admin' ? true : false,
                     });
-    
-                    
-                } 
-            } catch (error) {
-                console.error('Error fetching user data:', error);
+                } catch (error) {
+                    console.error('Error fetching user data:', error);
+                }
             }
         };
-    
+
         fetchData();
     }, [id, isEditForm]);
-    
 
     const formik = useFormik({
         initialValues: {
@@ -47,41 +40,51 @@ function FormUser() {
             password: '',
             email: '',
             avatar: null,
-            isAdmin: false,
+            role: false,
         },
         validationSchema: Yup.object({
             username: Yup.string().required('Username is required'),
-            password: Yup.string().required('Password is required'),
+            password: Yup.string(),
             email: Yup.string().email('Invalid email address').required('Email is required'),
         }),
         onSubmit: async (values, { setSubmitting }) => {
-            setProcessing(true)
+            setProcessing(true);
             try {
                 const formData = new FormData();
                 formData.append('username', values.username);
-                formData.append('password', values.password);
+                if (values.password) {
+                    formData.append('password', values.password);
+                }
                 formData.append('email', values.email);
                 formData.append('avatar', imageFile);
-                formData.append('isAdmin', values.isAdmin);
+                formData.append('role', values.role ? 'admin' : 'user');
+
+                console.log('Submitting form data:', values);
 
                 let response;
                 if (isEditForm) {
-                    response = await axios.put(`/user/${id}`, formData);
+                    response = await axios.put(`/users/${id}`, formData);
                 } else {
                     response = await axios.post('/auth/register', formData);
                 }
 
-                if (response.status === 200 ) {
-                    setProcessing(false)
+                console.log('API response:', response);
+
+                if (response.status === 201 || response.status === 200) {
+                    setProcessing(false);
                     const message = isEditForm ? 'Người dùng cập nhật thành công' : 'Người dùng thêm thành công';
                     toast.success(message);
-                    navigate('/admin/user');
+                    setTimeout(()=>navigate('/admin/user'),2000);
                 } else {
                     toast.error('Failed to add/update user.');
                 }
             } catch (error) {
                 console.error('An error occurred:', error);
-                toast.error('An error occurred. Please try again.');
+                if (error.response && error.response.data && error.response.data.message) {
+                    toast.error(error.response.data.message);
+                } else {
+                    toast.error('An error occurred. Please try again.');
+                }
             }
             setSubmitting(false);
         },
@@ -94,9 +97,7 @@ function FormUser() {
 
     return (
         <section className="bg-white dark:bg-gray-900">
-            {
-                processing && <Loading/>
-            }
+            {processing && <Loading />}
             <div className="max-w-2xl px-4 py-4 mx-auto lg:py-4">
                 <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">
                     {isEditForm ? 'Edit User' : 'Add User'}
@@ -124,9 +125,9 @@ function FormUser() {
                                 name="password"
                                 id="password"
                                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                value={formik.values.password}
+                                // value={formik.values.password}
                                 onChange={formik.handleChange}
-                                placeholder="Enter password"
+                                placeholder="Enter your new password"
                             />
                             {formik.errors.password && <p className="text-red-600 text-sm">{formik.errors.password}</p>}
                         </div>
@@ -156,13 +157,14 @@ function FormUser() {
                         </div>
                         <div className="sm:col-span-2">
                             <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Admin</label>
-                            <label className="inline-flex items-center cursor-pointer flex-col ">
+                            <label className="inline-flex items-center cursor-pointer flex-col">
                                 <span className="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300 mb-3">Is Admin</span>
                                 <input
-                                    checked={formik.values.isAdmin}
-                                    onChange={(e) => formik.setFieldValue('isAdmin', e.target.checked)}
+                                    checked={formik.values.role}
+                                    onChange={(e) => formik.setFieldValue('role', e.target.checked)}
                                     type="checkbox"
-                                    className="sr-only peer "
+                                    className="sr-only peer"
+                                    name="role"
                                 />
                                 <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                             </label>
