@@ -12,6 +12,7 @@ import { UserModule } from './apis/users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './auth/JWT/jwt.decode';
 import { PostModule } from './apis/posts/post.module';
+import { ReportModule } from './apis/reports/report.module';
 
 
 @Module({
@@ -19,6 +20,7 @@ import { PostModule } from './apis/posts/post.module';
     UserModule,
     AuthModule,
     PostModule,
+    ReportModule,
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MongooseModule.forRoot(process.env.DB_URL),
   ],
