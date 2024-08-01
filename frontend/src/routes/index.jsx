@@ -10,7 +10,7 @@ import DetailPosts from '../Components/Posts/DetailPost';
 import Posts from '../Components/Posts/Posts';
 import Profile from '../Components/Profile/Profile';
 import Register from '../Components/Register/Register';
-import Tags from '../Components/tags/Tags';
+import Tags from '../Components/Tags/Tags';
 import PricingCard from '../Service/PricingCard/PricingCard';
 import PageQuestions from '../Components/Questions/page';
 import PageDetailQuestion from '../Components/DetailQuestions/page';

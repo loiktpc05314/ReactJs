@@ -21,7 +21,7 @@ export const TopicSchema = SchemaFactory.createForClass(Topic);
 
 @Schema({ timestamps: true })
 export class Media {
-  @Prop({ required: true })
+  @Prop()
   url: string;
 
   @Prop({ type: String, enum: MediaType })

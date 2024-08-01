@@ -8,7 +8,6 @@ import { AppService } from './app.service';
 import cors from 'cors'
 //Modules
 import { TopicModule } from './apis/topics/topic.module';
-import { FavoritesModule } from './apis/favorites/favorites.module';
 import { UserModule } from './apis/users/user.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtMiddleware } from './auth/JWT/jwt.decode';
@@ -20,7 +19,6 @@ import { PostModule } from './apis/posts/post.module';
     UserModule,
     AuthModule,
     PostModule,
-    FavoritesModule,
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MongooseModule.forRoot(process.env.DB_URL),
   ],

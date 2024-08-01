@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaTypes } from 'mongoose';
 import slugify from 'slugify';
-import { Article } from 'src/apis/articles/schemas/article.schema';
+import { Posts } from 'src/apis/posts/schemas/post.schema';
+
 export enum UserRole {
   USER = 'user',
   ADMIN = 'admin',
@@ -9,8 +10,7 @@ export enum UserRole {
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop()
-  _id: string;
+  
   @Prop()
   uid?: string;
   @Prop()
@@ -25,8 +25,8 @@ export class User {
   @Prop()
   password: string;
 
-  @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'Article' }] })
-  articles: Article[];
+  @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'Post' }] })
+  posts: Posts[];
 
   @Prop({ enum: UserRole, default: UserRole.USER })
   role: UserRole;

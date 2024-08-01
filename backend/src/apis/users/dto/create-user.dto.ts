@@ -1,5 +1,5 @@
 
-import { Article } from 'src/apis/articles/schemas/article.schema';
+import { Posts } from 'src/apis/posts/schemas/post.schema';
 import { UserRole } from '../schemas/user.schema';
 
 export class CreateUserDto {
@@ -7,7 +7,7 @@ export class CreateUserDto {
   readonly avatar: string;
   readonly email: string;
   readonly password: string;
-  readonly articles: Article[];
+  readonly posts: Posts[];
   readonly role: UserRole;
   readonly slug: string;
   readonly followers: { userId: string; followedAt: Date }[];
