@@ -25,7 +25,7 @@ export class User {
   @Prop()
   password: string;
 
-  @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'Post' }] })
+  @Prop({ type: [{ type: SchemaTypes.ObjectId, ref: 'Posts' }] })
   posts: Posts[];
 
   @Prop({ enum: UserRole, default: UserRole.USER })
