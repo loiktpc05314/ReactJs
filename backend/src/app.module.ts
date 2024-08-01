@@ -17,6 +17,7 @@ import { JwtMiddleware } from './auth/JWT/jwt.decode';
 import { CommentModule } from './socket/comments/comment.module';
 import { NotificationModule } from './socket/notification/nofication.module';
 import { PostModule } from './apis/posts/post.module';
+import { ReportModule } from './apis/reports/report.module';
 
 
 @Module({
@@ -27,6 +28,7 @@ import { PostModule } from './apis/posts/post.module';
     FavoritesModule,
     EpisodeModule,
     CommentModule,
+    ReportModule,
    NotificationModule,
     ConfigModule.forRoot({ envFilePath: '.env', isGlobal: true }),
     MongooseModule.forRoot(process.env.DB_URL),
