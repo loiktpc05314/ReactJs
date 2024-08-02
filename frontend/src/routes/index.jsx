@@ -10,7 +10,7 @@ import DetailPosts from '../Components/Posts/DetailPost';
 import Posts from '../Components/Posts/Posts';
 import Profile from '../Components/Profile/Profile';
 import Register from '../Components/Register/Register';
-import Tags from '../Components/Tags/Tags';
+import Tags from '../Components/tags/Tags';
 import PricingCard from '../Service/PricingCard/PricingCard';
 import PageQuestions from '../Components/Questions/page';
 import PageDetailQuestion from '../Components/DetailQuestions/page';
@@ -27,6 +27,10 @@ import ReadPremiumUser from '../admin/Actions/PremiumUsers/PremiumUsers';
 import FormUser from '../admin/Actions/User/FormUser';
 import ReadUsers from '../admin/Actions/User/ReadUser';
 import Dashboard from '../admin/Components/Dashboard/Dashboard';
+import Updateinfo from '../Components/Updateinfo/Updateinfo';
+import Changepass from '../Components/Changepass/Changepass';
+import ForGotPass from '../Components/ForgotPass/ForGotPass';
+import ResetPass from '../Components/ResetPass/ResetPass';
 
 
 const publicRoutes = [
@@ -47,6 +51,10 @@ const publicRoutes = [
 	{ path: '/detailquestion', component: PageDetailQuestion },
 	{ path: '/ask', component: Ask },
 	{ path: '/tags', component: Tags },
+	{ path: '/updateinfo/:id', component: Updateinfo },
+	{ path: '/Changepass/:id', component: Changepass },
+	{ path: '/auth/reset-password', component: ResetPass },
+	{ path: 'forgotpassword', component: ForGotPass },
 ];
 
 const adminRoutes = [

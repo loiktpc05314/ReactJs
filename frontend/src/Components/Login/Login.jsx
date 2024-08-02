@@ -7,45 +7,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from '../../config/axiosConfig';
 import { auth , provider} from "../../firebase/config";
 import { signInWithPopup, GoogleAuthProvider, FacebookAuthProvider,GithubAuthProvider } from 'firebase/auth';
+import { login } from '../../Service/Auth/Api'
 
 const LoginSchema = Yup.object().shape({
-  username: Yup.string().required('Tên đăng nhập không được trống'),
+  email: Yup.string().required('Email không được trống'),
   password: Yup.string().required('Mật khẩu không được trống'),
 });
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const handleLogin = async (values, { setSubmitting }) => {
-    try {
-      const response = await axios.post('/auth/login', {
-        username: values.username,
-        password: values.password,
-      });
-
-      if (response.status === 200) {
-        const data = response.data;
-        localStorage.setItem(
-          'user',
-          JSON.stringify([
-            data._id,
-            data.username,
-            data.avatar,
-            data.email,
-            data.premium,
-            data.hasFollow,
-          ]),
-        );
-        document.cookie = `token=${data.accessToken};max-age=${data.expiresIn};path=/`;
-        navigate('/');
-        window.location.reload();
-      } else {
-        console.error('Login failure!');
-      }
-    } catch (error) {
-      toast.error('Tên hoặc mật khẩu không đúng!!!');
-      console.error('Error:', error.message);
+  const handleLogin = async (values, { setSubmitting  } ) => {
+    const data = await login(values)
+    if(data){
+      navigate('/');
+      window.location.reload();
     }
+   
   };
 
   const handleGoogleLogin = async () => {
@@ -138,7 +116,7 @@ const Login = () => {
         </h4>
         <ToastContainer />
         <Formik
-          initialValues={{ username: '', password: '' }}
+          initialValues={{ email: '', password: '' }}
           validationSchema={LoginSchema}
           onSubmit={handleLogin}
         >
@@ -150,12 +128,12 @@ const Login = () => {
                 </h6>
                 <Field
                   type="text"
-                  name="username"
-                  placeholder="Nhập tên đăng nhập"
+                  name="email"
+                  placeholder="Nhập email"
                   className="peer h-full w-full rounded-md border border-blue-gray-200 border-t-transparent !border-t-blue-gray-200 bg-transparent px-3 py-3 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 focus:border-gray-900 focus:border-t-transparent focus:!border-t-gray-900 focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50"
                 />
                 <ErrorMessage
-                  name="username"
+                  name="email"
                   component="div"
                   className="text-red-500 text-sm"
                 />
@@ -176,7 +154,7 @@ const Login = () => {
                 />
               </div>
               <p className="block mt-4 font-sans text-base antialiased font-normal leading-relaxed  text-gray-700">
-                <Link to="/register">
+                <Link to="/forgotpassword">
                   <a className="font-medium text-sm text-gray-900">
                     Quên mật khẩu?
                   </a>

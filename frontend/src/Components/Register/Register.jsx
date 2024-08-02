@@ -58,7 +58,7 @@ const Register = () => {
 					}
 				);
 		
-				if (response.status === 200) {
+				if (response.status === 201) {
 					navigate('/login');
 				} else {
 					console.error('Đăng ký không thành công.');
