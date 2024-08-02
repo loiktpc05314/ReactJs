@@ -1,5 +1,23 @@
+import { useEffect, useState } from "react";
+import axios from '../../config/axiosConfig';
+import { formatDate } from "../../utils/formatTime";
+import { Link } from "react-router-dom";
 
 function Tags() {
+	const [tags, setTags] = useState([]);
+	useEffect(() => {
+	const fetchTags = async () => {
+		try {
+			const res = await axios.get('/posts/topic');
+			setTags(res.data.data)
+		} catch (error) {
+			
+		}
+	}
+	fetchTags()	
+	},[tags])
+
+	
 	return (
 		<>
 			<div>
@@ -65,127 +83,41 @@ function Tags() {
 					</form>
 				</div>
 				<div className="mt-3 p-4">
-					{/* list tags */}
+					{
+						tags.map((tag) => (
+
 					<div className="w-[310px] mx-2 mb-2 border rounded-lg border-gray-300 p-3 inline-block">
 						<div className="">
 							<div className=" mb-3">
-								<a
-									href="/questions/tagged/compute"
-									className="font-bold bg-[#f1f2f3] p-1 cursor-pointer border hover:bg-blue-gray-100"
-									title=""
-									aria-label="show questions tagged 'compute'"
-									rel="tag"
-									aria-labelledby="tag-compute-tooltip-container"
-									data-tag-menu-origin="Unknown"
-								>
-									compute
-								</a>
+							<Link to={`/tags/${tag._id}`}>
+									
+									<a
+									
+										className="font-bold bg-[#f1f2f3] p-1 cursor-pointer border hover:bg-blue-gray-100"
+										title=""
+										aria-label="show questions tagged 'compute'"
+										rel="tag"
+										aria-labelledby="tag-compute-tooltip-container"
+										data-tag-menu-origin="Unknown"
+									>
+										{tag && tag.name}
+									</a>
+							</Link>
 							</div>
 							<div className="mb-2">
 								<p>
-									For questions about programming in
-									ECMAScript (JavaScript/JS) and its different
-									dialects/implementations (except for
-									ActionScript). Note that JavaScript is NOT
-									Java.
+									{tag && tag.description}
 								</p>
 							</div>
 							<div className="mt-auto flex justify-between text-gray-400 text-sm	">
 								<div className="">0 questions</div>
-								<div className=" ">Created 8 hours ago</div>
+								<div className=" ">Created {tag &&formatDate(tag.createdAt) }</div>
 							</div>
 						</div>
 					</div>
-					<div className="w-[310px] mx-2 mb-2 border rounded-lg border-gray-300 p-3 inline-block">
-						<div className="">
-							<div className=" mb-3">
-								<a
-									href="/questions/tagged/compute"
-									className="font-bold bg-[#f1f2f3] p-1 cursor-pointer border hover:bg-blue-gray-100"
-									title=""
-									aria-label="show questions tagged 'compute'"
-									rel="tag"
-									aria-labelledby="tag-compute-tooltip-container"
-									data-tag-menu-origin="Unknown"
-								>
-									compute
-								</a>
-							</div>
-							<div className="mb-2">
-								<p>
-									For questions about programming in
-									ECMAScript (JavaScript/JS) and its different
-									dialects/implementations (except for
-									ActionScript). Note that JavaScript is NOT
-									Java.
-								</p>
-							</div>
-							<div className="mt-auto flex justify-between text-gray-400 text-sm	">
-								<div className="">0 questions</div>
-								<div className=" ">Created 8 hours ago</div>
-							</div>
-						</div>
-					</div>
-					<div className="w-[310px] mx-2 mb-2 border rounded-lg border-gray-300 p-3 inline-block">
-						<div className="">
-							<div className=" mb-3">
-								<a
-									href="/questions/tagged/compute"
-									className="font-bold bg-[#f1f2f3] p-1 cursor-pointer border hover:bg-blue-gray-100"
-									title=""
-									aria-label="show questions tagged 'compute'"
-									rel="tag"
-									aria-labelledby="tag-compute-tooltip-container"
-									data-tag-menu-origin="Unknown"
-								>
-									compute
-								</a>
-							</div>
-							<div className="mb-2">
-								<p>
-									For questions about programming in
-									ECMAScript (JavaScript/JS) and its different
-									dialects/implementations (except for
-									ActionScript). Note that JavaScript is NOT
-									Java.
-								</p>
-							</div>
-							<div className="mt-auto flex justify-between text-gray-400 text-sm	">
-								<div className="">0 questions</div>
-								<div className=" ">Created 8 hours ago</div>
-							</div>
-						</div>
-					</div>
-					<div className="w-[310px] mx-2 mb-2 border rounded-lg border-gray-300 p-3 inline-block">
-						<div className="">
-							<div className=" mb-3">
-								<a
-									href="/questions/tagged/compute"
-									className="font-bold bg-[#f1f2f3] p-1 cursor-pointer border hover:bg-blue-gray-100"
-									title=""
-									aria-label="show questions tagged 'compute'"
-									rel="tag"
-									aria-labelledby="tag-compute-tooltip-container"
-									data-tag-menu-origin="Unknown"
-								>
-									compute
-								</a>
-							</div>
-							<div className="mb-2">
-								<p>
-									For questions about programming in
-									ECMAScript (JavaScript/JS) and its different
-									dialects/implementations (except for
-									ActionScript). Note that JavaScript is NOT
-									Java.
-								</p>
-							</div>
-							<div className="mt-auto flex justify-between text-gray-400 text-sm	">
-								<div className="">0 questions</div>
-								<div className=" ">Created 8 hours ago</div>
-							</div>
-						</div>
-					</div>
+						))
+					}
+					
 				</div>
 			</div>
 		</>
