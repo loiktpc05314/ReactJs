@@ -61,14 +61,7 @@ function ReadComments() {
 		if (!selectedComment) return;
 
 		try {
-			socket.emit('Delete_comment', { commentId: selectedComment._id });
-			toast.success('Comment deleted successfully');
-			handleCloseConfirmation();
-			setCommentsWithUsername((prevComments) =>
-				prevComments.filter(
-					(comment) => comment._id !== selectedComment._id,
-				),
-			);
+		
 		} catch (error) {
 			console.error('Error deleting comment:', error);
 		}
