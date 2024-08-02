@@ -6,26 +6,25 @@ import { publicRoutes, adminRoutes } from './routes';
 import DefaultLayout from './Components/Layouts/DefaultLayout';
 import AdminLayouts from './admin/Layouts';
 import NotFound from './Components/NotFound/NotFound';
+import { checkroleadmin } from './Service/Auth/Api';
+import { useEffect, useState } from 'react';
+import Loading from './admin/Components/Loading/Loading';
 
 function App() {
-	// function checkAdminRole() {
-	//     const token = document.cookie
-	//         .split('; ')
-	//         .find((row) => row.startsWith('token='))
-	//         ?.split('=')[1];
+	const [isAdmin, setIsAdmin] = useState(null);
 
-	//     if (token) {
-	//         try {
-	//             const decodedToken = jwtDecode(token);
-	//             return decodedToken.isAdmin;
-	//         } catch (error) {
-	//             console.error('Invalid token:', error);
-	//             return false;
-	//         }
-	//     }
-	//     return false;
-	// }
-	// const isAdmin = checkAdminRole();
+	useEffect(() => {
+		  const fetchRole = async () => {
+			const check = await checkroleadmin();
+			setIsAdmin(check);
+		  };
+		  fetchRole();
+		}, []);
+	  
+		if (isAdmin === null) {
+		 
+		  return<Loading/>;
+		}
 	return (
 		<Router>
 			<Routes>
@@ -43,8 +42,9 @@ function App() {
 						}
 					/>
 				))}
-				{/* {isAdmin && */}
-				{adminRoutes.map((route, index) => (
+				
+				{isAdmin &&  <>
+					{adminRoutes.map((route, index) => (
 					<Route
 						key={index}
 						path={route.path}
@@ -57,9 +57,11 @@ function App() {
 							</AdminLayouts>
 						}
 					/>
-				))}
-
+				))}</>} 
+				
+				
 				<Route path="*" element={<NotFound />} />
+				
 			</Routes>
 		</Router>
 	);

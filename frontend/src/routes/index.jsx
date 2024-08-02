@@ -10,7 +10,7 @@ import DetailPosts from '../Components/Posts/DetailPost';
 import Posts from '../Components/Posts/Posts';
 import Profile from '../Components/Profile/Profile';
 import Register from '../Components/Register/Register';
-import Tags from '../Components/Tags/Tags';
+import Tags from '../Components/tags/Tags';
 import PricingCard from '../Service/PricingCard/PricingCard';
 import PageQuestions from '../Components/Questions/page';
 import PageDetailQuestion from '../Components/DetailQuestions/page';
@@ -27,7 +27,6 @@ import ReadPremiumUser from '../admin/Actions/PremiumUsers/PremiumUsers';
 import FormUser from '../admin/Actions/User/FormUser';
 import ReadUsers from '../admin/Actions/User/ReadUser';
 import Dashboard from '../admin/Components/Dashboard/Dashboard';
-import ReplItEmbed from '../Components/Edittor/Edittor';
 
 
 const publicRoutes = [
@@ -48,7 +47,6 @@ const publicRoutes = [
 	{ path: '/detailquestion', component: PageDetailQuestion },
 	{ path: '/ask', component: Ask },
 	{ path: '/tags', component: Tags },
-	{ path: '/editor', component: ReplItEmbed },
 ];
 
 const adminRoutes = [
