@@ -7,27 +7,15 @@ import axios from '../../config/axiosConfig';
 
 function Posts() {
     const [value, setValue] = useState('');
-    // const [posts, setPosts] = useState(null);
-
-    // useEffect(() => {
-    //     const fetchPosts = async () => {
-    //         try {
-    //             const response = await axios.get('/posts');
-    //             setPosts(response.data.data);
-                
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     };
-    //     console.log(posts);
-    //     fetchPosts();
-    // }, []);
 	return (
         <div className="flex flex-col  lg:px-48 lg:py-11">
            
                 <h2 className="text-xl uppercase mb-4 text-left">Your Posts</h2>
+                <input type="text" placeholder='Your Title' className='mb-2 rounded-lg border-zinc-300'></input>
                 <ReactQuill 
                     value={value} 
+                    placeholder='Your content'
+                    
                     onChange={setValue} 
                     modules={{
                         toolbar: [
@@ -42,6 +30,7 @@ function Posts() {
                             ['clean']                                         
                         ]
                     }}
+                    className='rounded-lg'
                     formats={[
                         'font', 'size', 'bold', 'italic', 'underline', 'strike',
                         'color', 'background', 'script', 'blockquote', 'code-block',
