@@ -8,7 +8,7 @@ import axios from '../../config/axiosConfig';
 import { forgotpassword } from '../../Service/Auth/Api';
 
 const LoginSchema = Yup.object().shape({
-  email: Yup.string().required('Email không được trống').email('email không hợp lệ'),
+  email: Yup.string().required('Email not empty').email('Email not valid'),
 });
 
 const ForGotPass = () => {
@@ -19,9 +19,9 @@ const ForGotPass = () => {
       const res = await forgotpassword(values)
       console.log('check value' , res);
       if(res){
-        toast.success('vui lòng kiểm tra email')
+        toast.success('Please check your email')
       }else{
-        toast.error('Email không tồn tại!!!');
+        toast.error('Email not exist!!!');
       }
     } catch (error) {
       console.log(error);
@@ -33,7 +33,7 @@ const ForGotPass = () => {
     <section>
       <div className="relative flex flex-col text-gray-700 bg-transparent shadow-md p-4 mt-2 rounded-xl bg-clip-border">
         <h4 className="text-center block font-sans text-2xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-          Quên mật khẩu
+         Forgot password
         </h4>
         <ToastContainer />
         <Formik
@@ -68,24 +68,24 @@ const ForGotPass = () => {
                   type="submit"
                   disabled={isSubmitting}
                 >
-                 Xác nhận 
+                 Confirm
                 </button>
            
                 
               </div>
               <p className="block mt-4 font-sans text-base antialiased font-normal leading-relaxed text-center text-gray-700">
-                Bạn chưa có tài khoản?
+                You don't have an account?
                 <Link to="/register">
                   <a className="font-medium text-gray-900">
-                    Đăng kí
+                   Register
                   </a>
                 </Link>
               </p>
               <p className="block mt-4 font-sans text-base antialiased font-normal leading-relaxed text-center text-gray-700">
-                Bạn đã có tài khoản?
+                Already have an account?
                 <Link to="/login">
                   <a className="font-medium text-gray-900">
-                    đăng nhập
+                  Login
                   </a>
                 </Link>
               </p>

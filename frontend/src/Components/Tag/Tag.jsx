@@ -13,19 +13,16 @@ function Tag() {
     useEffect(() => {
         const fetchTagsAndPosts = async () => {
             try {
-                // Lấy thông tin topic từ API
+                
                 const tagRes = await axios.get(`/posts/topic/${id}`);
-                const tag = tagRes.data.data; // Topic lấy được
+                const tag = tagRes.data.data; 
 
-                setTags([tag]); // Giả sử bạn chỉ đang làm việc với một topic
-console.log([tag]);
+                setTags([tag]);
 
-                // Lấy tất cả bài viết từ API
                 const postsRes = await axios.get('/posts');
                 const allPosts = postsRes.data.data;
-console.log(allPosts);
 
-                // Lọc các bài viết có chứa topic phù hợp với topic lấy được
+            
                 const filtered = allPosts.filter(post => 
                     post.topic.length > 0 && post.topic.some(topic => topic._id === tag._id)
                 );
@@ -96,7 +93,7 @@ console.log(allPosts);
                         </div>
                     </div>
                 </div>
-                <PaginationPage /> {/* Thay đổi theo cách bạn quản lý phân trang */}
+                <PaginationPage /> 
             </div>
         </div>
     );

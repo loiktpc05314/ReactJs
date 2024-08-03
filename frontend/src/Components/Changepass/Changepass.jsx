@@ -46,14 +46,14 @@ function Changepass() {
 		},
 		validationSchema: Yup.object({
 			password: Yup.string()
-				.required('Mật khẩu không được trống')
+				.required('Email not empty')
 				.matches(
 					/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-					'Mật khẩu ít nhất phải là 8 kí tự',
+					'Password must be at least 8 characters long',
 				),
 			confirmPassword: Yup.string()
-				.required('Xác nhận mật khẩu không được trống')
-				.oneOf([Yup.ref('password'), null], 'Mật khẩu không khớp'),
+				.required('Confirm not empty')
+				.oneOf([Yup.ref('password'), null], 'Passwords must match'),
 		}),
 		onSubmit: async (values, { setSubmitting }) => {
 			setProcessing(true);
@@ -72,7 +72,7 @@ function Changepass() {
 
 				if (response.status === 201 || response.status === 200) {
 					setProcessing(false);
-					const message = 'Người dùng cập nhật mật khẩu thành công';
+					const message = 'Updated successfully';
 					toast.success(message);
 					setTimeout(() => navigate('/user/null'), 2000);
 				} else {
@@ -109,7 +109,7 @@ function Changepass() {
 			<div className=" mt-2">
 				<div className="text-center">
 					<h2 className="font-bold text-xl uppercase">
-						thay đổi thông tin tài khoản
+						Change information
 					</h2>
 				</div>
 				<section className="bg-white dark:bg-gray-900">
@@ -144,7 +144,7 @@ function Changepass() {
 										htmlFor="password"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
-										nhập mật khẩu mới
+										Enter new password
 									</label>
 									<input
 										type="password"
@@ -166,7 +166,7 @@ function Changepass() {
 										htmlFor="password"
 										className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
 									>
-										xác nhận mật khẩu mới
+										Confirm new password
 									</label>
 									<input
 										className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
@@ -189,7 +189,7 @@ function Changepass() {
 									type="submit"
 									className="text-white justify-end flex bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
 								>
-									xác nhận
+									Confirm
 								</button>
 							</div>
 						</form>
@@ -204,7 +204,7 @@ function Changepass() {
 						navigate('/user/null');
 					}}
 				>
-					Quay lại
+					Back
 				</button>
 			</div>
 		</div>

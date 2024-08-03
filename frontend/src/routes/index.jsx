@@ -15,6 +15,10 @@ import PricingCard from '../Service/PricingCard/PricingCard';
 import PageQuestions from '../Components/Questions/page';
 import PageDetailQuestion from '../Components/DetailQuestions/page';
 import Tag from '../Components/Tag/Tag';
+import Updateinfo from '../Components/Updateinfo/Updateinfo';
+import Changepass from '../Components/Changepass/Changepass';
+import ForGotPass from '../Components/ForgotPass/ForGotPass';
+import ResetPass from '../Components/ResetPass/ResetPass';
 //Admin routes
 import FormAuthor from '../admin/Actions/Authors/FormAuthor';
 import ReadAuthors from '../admin/Actions/Authors/ReadAuthor';
@@ -27,6 +31,7 @@ import ReadPremiumUser from '../admin/Actions/PremiumUsers/PremiumUsers';
 import FormUser from '../admin/Actions/User/FormUser';
 import ReadUsers from '../admin/Actions/User/ReadUser';
 import Dashboard from '../admin/Components/Dashboard/Dashboard';
+import Reports from '../admin/Actions/Reports/Reports';
 
 
 
@@ -49,6 +54,10 @@ const publicRoutes = [
 	{ path: '/ask', component: Ask },
 	{ path: '/tags', component: Tags },
 	{ path: '/tags/:id', component: Tag },
+	{ path: '/updateinfo/:id', component: Updateinfo },
+	{ path: '/Changepass/:id', component: Changepass },
+	{ path: '/auth/reset-password', component: ResetPass },
+	{ path: 'forgotpassword', component: ForGotPass },
 ];
 
 const adminRoutes = [
@@ -67,6 +76,7 @@ const adminRoutes = [
 	{ path: '/admin/author/add-author', component: FormAuthor },
 	{ path: '/admin/author/edit-author/:id', component: FormAuthor },
 	{ path: '/admin/comments', component: ReadComments },
+	{ path: '/admin/reports', component: Reports },
 ];
 
 export { publicRoutes, adminRoutes };

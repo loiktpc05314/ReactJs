@@ -35,7 +35,7 @@ export class ReportService {
 
 
   async findReports(): Promise<Report[]> {
-    return this.reportModel.find().exec();
+    return this.reportModel.find().populate('user').populate('post').exec();
   }
 
   async findReportById(id: string): Promise<Report> {

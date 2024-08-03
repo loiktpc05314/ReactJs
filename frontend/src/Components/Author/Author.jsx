@@ -54,12 +54,12 @@ function Author() {
                                 </div>
                                 <div className="flex flex-col mt-3">
                                     <span className="text-gray-700 uppercase font-bold tracking-wider mb-2">
-                                        Thông tin
+                                       Info
                                     </span>
                                     <ul>
                                         <li className='text-balance'>Username: {user.username}</li>
                                         <li className='text-balance'>Email: {user.email}</li>
-                                        <li className='text-balance'>Số bài viết: {user.posts && user.posts.length}</li>
+                                        <li className='text-balance'>Posted: {user.posts && user.posts.length}</li>
                                         
                                     </ul>
                                 </div>
@@ -68,7 +68,7 @@ function Author() {
                         <div className="col-span-4 sm:col-span-9">
                             <div className="bg-white shadow rounded-lg p-6">
                                 <h2 className="text-xl font-medium mt-3 mb-4">
-                                    Bài viết của{' '}
+                                    Posts of{' '}
                                     <span className="text-xl font-bold">
                                         {user.username}
                                     </span>
@@ -96,7 +96,7 @@ function Author() {
                                             </div>
                                         ))
                                     ) : (
-                                        <p className="text-gray-700">Chưa có bài viết nào.</p>
+                                        <p className="text-gray-700">Not yet posted</p>
                                     )}
                                 </div>
                             </div>

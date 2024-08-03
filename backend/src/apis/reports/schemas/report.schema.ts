@@ -6,7 +6,7 @@ export class Report {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Posts', required: true })
   post: mongoose.Schema.Types.ObjectId;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: mongoose.Schema.Types.ObjectId;
 
   @Prop({ type: String, required: true })
