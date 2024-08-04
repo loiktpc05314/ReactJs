@@ -147,12 +147,16 @@ function Sidebar() {
 							</Link>
 						</li>
 						<li>
-							<Link to={'/admin/reports'}>
+
+							<Link to={'/admin/reports'}/>
+
+							<Link to={'/admin/posts'}>
 								<a className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
 								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-flag-triangle-right"><path d="M7 22V2l10 5-10 5"/></svg>
 
 									<span className="flex-1 ms-3 whitespace-nowrap">
 										Report posts
+										Posts
 									</span>
 								</a>
 							</Link>

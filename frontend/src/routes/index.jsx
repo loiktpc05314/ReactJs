@@ -10,7 +10,7 @@ import DetailPosts from '../Components/Posts/DetailPost';
 import Posts from '../Components/Posts/Posts';
 import Profile from '../Components/Profile/Profile';
 import Register from '../Components/Register/Register';
-import Tags from '../Components/Tags/Tags';
+import Tags from '../Components/tags/Tags';
 import PricingCard from '../Service/PricingCard/PricingCard';
 import PageQuestions from '../Components/Questions/page';
 import PageDetailQuestion from '../Components/DetailQuestions/page';
@@ -32,6 +32,9 @@ import FormUser from '../admin/Actions/User/FormUser';
 import ReadUsers from '../admin/Actions/User/ReadUser';
 import Dashboard from '../admin/Components/Dashboard/Dashboard';
 import Reports from '../admin/Actions/Reports/Reports';
+import ReplItEmbed from '../Components/Edittor/Edittor';
+import ReadPosts from '../admin/Actions/Posts/ReadPosts';
+import FormPosts from '../admin/Actions/Posts/FormPosts';
 
 
 
@@ -77,6 +80,9 @@ const adminRoutes = [
 	{ path: '/admin/author/edit-author/:id', component: FormAuthor },
 	{ path: '/admin/comments', component: ReadComments },
 	{ path: '/admin/reports', component: Reports },
+	{ path: '/admin/posts', component: ReadPosts },
+	{ path: '/admin/add-posts', component: FormPosts },
+	{ path: '/admin/edit-posts/:id', component: FormPosts },
 ];
 
 export { publicRoutes, adminRoutes };
