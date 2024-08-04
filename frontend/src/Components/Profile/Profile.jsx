@@ -5,6 +5,11 @@ import axios from '../../config/axiosConfig';
 import moment from 'moment-timezone';
 import getUsersFromLocalStorage from '../../utils/getDataUser';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import { getinfouser } from '../../Service/Auth/Api';
+import {  useNavigate } from 'react-router-dom';
+
 function Profile() {
 	const [user, setUser] = useState();
 
@@ -43,7 +48,27 @@ function Profile() {
 	const handleBackToProfile = () => {
 		setShowFollowedAuthors(false);
 	};
+	// get data user
+	const checkauthGGFB = localStorage.getItem('auth');
+	const navigate = useNavigate();
 
+	const [getdatainfo, setgetdatainfo] = useState();
+	useEffect(() => {
+		handleGetDataUserINfo()
+	}, []);
+	const  handleGetDataUserINfo= async() =>{
+		if(checkauthGGFB){ 
+			let datauser = localStorage.getItem('user');
+			let converdata = JSON.parse(datauser)
+			setgetdatainfo({email : converdata.email, username : converdata.displayName , avatar: converdata.photoURL})
+			/* empty */ }else{
+			
+			let token = Cookies.get('token');
+			const decodedToken = jwtDecode(token);
+			const data = await getinfouser(decodedToken.id);
+			setgetdatainfo({email : data.email, username : data.username , createdAt : data.createdAt , avatar: data.avatar , id: data._id})
+		}
+	}
 	return (
 		<div className="max-w-2xl mx-4 sm:max-w-sm md:max-w-sm lg:max-w-sm xl:max-w-sm sm:mx-auto md:mx-auto lg:mx-auto xl:mx-auto  bg-white shadow-xl rounded-lg text-gray-900">
 			<div className="rounded-t-lg h-32 overflow-hidden">
@@ -57,7 +82,8 @@ function Profile() {
 				<img
 					className="object-cover object-center h-32"
 					src={
-						(user && user[2]) ||
+						// (user && user[2]) ||
+						(	getdatainfo && getdatainfo.avatar) ||
 						'https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg'
 					}
 					alt="Ảnh đại diện"
@@ -120,7 +146,7 @@ function Profile() {
 										Tên
 									</dt>
 									<dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-										{user && user[1]}
+										{getdatainfo && getdatainfo.username}
 									</dd>
 								</div>
 								<div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -128,10 +154,10 @@ function Profile() {
 										Email
 									</dt>
 									<dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-										{user && user[3]}
+									{getdatainfo && getdatainfo.email}
 									</dd>
 								</div>
-								<div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+								{/* <div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 									<dt className="text-sm font-medium text-gray-500">
 										Loại thành viên
 									</dt>
@@ -151,12 +177,13 @@ function Profile() {
 								</div>
 								<div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
 									<dt className="text-sm font-medium text-gray-500">
-										Ngày đăng kí
+										Ngày tạo tài khoản
 									</dt>
 									<dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
 										{moment(
 											premium && premium.createdAt,
 										).format('DD/MM/YYYY')}
+								
 									</dd>
 								</div>
 								<div className="py-3 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
@@ -168,26 +195,44 @@ function Profile() {
 											premium && premium.expiryDate,
 										).format('DD/MM/YYYY')}
 									</dd>
-								</div>
+								</div> */}
 							</dl>
 						</div>
 					</>
 				)}
 			</div>
 			<div className="p-4 border-t mx-8 mt-2">
-				{!showFollowedAuthors ? (
-					<button
-						className="w-auto block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2"
-						onClick={handleShowFollowedAuthors}
-					>
-						Tác giả đã theo dõi
-					</button>
+				{!checkauthGGFB ? (
+					<div> <button
+					className="w-auto block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2"
+					// onClick={handleShowFollowedAuthors}
+					onClick={()=>{
+						navigate(`/updateinfo/${getdatainfo?.id}`);
+					}}
+				>
+					Thay đổi Thông tin tài khoản
+				</button>
+				<button
+					className="w-auto mt-3 block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2"
+					// onClick={handleShowFollowedAuthors}
+					onClick={()=>{
+						navigate(`/changepass/${getdatainfo?.id}`);
+					}}
+				>
+					Thay đổi mật khẩu
+				</button>
+				</div>
+					
+					
 				) : (
 					<button
 						className="w-auto block mx-auto rounded-full bg-gray-900 hover:shadow-lg font-semibold text-white px-6 py-2"
-						onClick={handleBackToProfile}
+						// onClick={handleBackToProfile}
+						onClick={(()=>{
+							navigate(`/`);
+						})}
 					>
-						Quay lại
+						Quay lại trang chủ
 					</button>
 				)}
 			</div>

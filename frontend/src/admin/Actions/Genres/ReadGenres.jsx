@@ -15,8 +15,8 @@ function ReadGenres() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res=await axios.get('/genres')
-                setGenres(res.data)
+				const res=await axios.get('/posts/topic')
+                setGenres(res.data.data)
 			} catch (error) {
 				console.error('Error fetching data:', error);
 			}
@@ -39,12 +39,12 @@ function ReadGenres() {
 		if (!selectedGenre) return;
 
 		try {
-			await axios.delete(`/genres/${selectedGenre._id}`);
-			toast.success('Xóa thành công');
+			await axios.delete(`/posts/topic/${selectedGenre._id}`);
+			toast.success('Deleted successfully!');
 
 			handleCloseConfirmation();
 		} catch (error) {
-			console.error('Lỗi khi xóa sách:', error);
+			console.error('Error deleting ', error);
 		}
 	};
 
@@ -56,7 +56,7 @@ function ReadGenres() {
 					type="button"
 					className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
 				>
-					Thêm
+					Add tag
 				</button>
 			</Link>
 			<div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
@@ -70,23 +70,29 @@ function ReadGenres() {
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Tên thể loại
+									Tag
 								</p>
 							</th>
 						
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Ngày tạo
+									Description
+								</p>
+							</th>
+						
+							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+									Create at
 								</p>
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Cập nhật gần nhất
+									Update at
 								</p>
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Hành động
+									Action
 								</p>
 							</th>
 							
@@ -104,6 +110,12 @@ function ReadGenres() {
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
 										
                                     {genre && genre.name}
+									</p>
+								</td>
+								<td className="p-4 border-b border-blue-gray-50">
+									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+										
+                                    {genre && genre.description}
 									</p>
 								</td>
 								

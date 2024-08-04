@@ -5,13 +5,20 @@ import { faCrown, faUser } from '@fortawesome/free-solid-svg-icons';
 import logo from '../../../../../public/assets/images/logo.png';
 import SearchBooks from './Search/Search';
 import handleLogout from '../../../Logout/Logout';
+import { Avatar, Dropdown } from "flowbite-react";
+import Cookies from 'js-cookie';
 
 
 function Navbar() {
 	const [user, setUser] = useState();
+	const [token, setToken] = useState();
 	useEffect(() => {
 		const userData = localStorage.getItem('user');
 		if (userData) setUser(JSON.parse(userData));
+
+		let token = Cookies.get('token');
+		if (token) setToken(token);
+
 	}, []);
 
 	return (
@@ -28,70 +35,24 @@ function Navbar() {
 				</Link>
 				<div className="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse ">
 					<SearchBooks />
-					{user ? (
+					
+					{user || token ? (
+						
 						<>
-							<button
-								type="button"
-								className="flex text-sm bg-gray-800 rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-								id="user-menu-button"
-								aria-expanded="false"
-								data-dropdown-toggle="user-dropdown"
-								data-dropdown-placement="bottom"
-							>
-								<span className="sr-only">Open user menu</span>
-								<span className="relative inline-block">
-									<img
-										src={
-											user[2] ||
-											'https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg'
-										}
-										className="object-cover w-10 h-10 rounded-full "
-									/>
-									{user[4] ? (
-										<FontAwesomeIcon
-											className="absolute  top-0 right-0 w-4 h-4 transform rotate-45 text-yellow-300"
-											icon={faCrown}
-										/>
-									) : (
-										''
-									)}
-								</span>
-							</button>
-							{/* Dropdown menu */}
-							<div
-								className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-								id="user-dropdown"
-							>
-								<div className="px-4 py-3">
-									<span className="block text-sm text-gray-900 dark:text-white">
-										{user[1]}
-									</span>
-									<span className="block text-sm text-gray-500 truncate dark:text-gray-400">
-										{user[3]}
-									</span>
-								</div>
-								<ul
-									className="py-2"
-									aria-labelledby="user-menu-button"
-								>
-									<li>
-										<Link to={`/user/${user[0]}`}>
-											<a className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
-												Thông tin
-											</a>
-										</Link>
-									</li>
-
-									<li>
-										<button
-											className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-											onClick={handleLogout}
-										>
-											Đăng xuất
-										</button>
-									</li>
-								</ul>
-							</div>
+						 <Dropdown
+						label={<Avatar alt="User settings" img="https://i.pinimg.com/736x/0d/64/98/0d64989794b1a4c9d89bff571d3d5842.jpg" rounded />}
+						arrowIcon={false}
+						inline
+						>
+						
+						<Dropdown.Item >
+							<Link to={`/user/${user[0]}`}>
+							Info
+							</Link>
+							</Dropdown.Item>
+						<Dropdown.Divider />
+						<Dropdown.Item onClick={handleLogout}>Logout </Dropdown.Item>
+						</Dropdown>
 						</>
 					) : (
 						<>
@@ -116,7 +77,7 @@ function Navbar() {
 									<li>
 										<Link to={'/login'}>
 											<a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-												Đăng nhập
+												Login
 											</a>
 										</Link>
 									</li>
@@ -124,7 +85,7 @@ function Navbar() {
 										<Link to={'/register'}>
 											{' '}
 											<a className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-												Đăng kí
+												Register
 											</a>
 										</Link>
 									</li>

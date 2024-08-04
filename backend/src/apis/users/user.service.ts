@@ -79,7 +79,10 @@ export class UserService {
 
       user.username = userDto.username;
       user.email = userDto.email;
-      // user.password = userDto.password;
+      if(userDto.password){
+        const hashedPassword = await bcrypt.hash(userDto.password, 10);
+        user.password =hashedPassword ;
+      }
       user.role = userDto.role;
       user.slug = userDto.slug;
       // user.followers = userDto.followers;

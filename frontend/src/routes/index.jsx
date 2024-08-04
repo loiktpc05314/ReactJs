@@ -14,7 +14,7 @@ import Tags from '../Components/tags/Tags';
 import PricingCard from '../Service/PricingCard/PricingCard';
 import PageQuestions from '../Components/Questions/page';
 import PageDetailQuestion from '../Components/DetailQuestions/page';
-
+import Tag from '../Components/Tag/Tag';
 //Admin routes
 import FormAuthor from '../admin/Actions/Authors/FormAuthor';
 import ReadAuthors from '../admin/Actions/Authors/ReadAuthor';
@@ -30,6 +30,7 @@ import Dashboard from '../admin/Components/Dashboard/Dashboard';
 import ReplItEmbed from '../Components/Edittor/Edittor';
 import ReadPosts from '../admin/Actions/Posts/ReadPosts';
 import FormPosts from '../admin/Actions/Posts/FormPosts';
+
 
 
 const publicRoutes = [
@@ -50,7 +51,7 @@ const publicRoutes = [
 	{ path: '/detailquestion', component: PageDetailQuestion },
 	{ path: '/ask', component: Ask },
 	{ path: '/tags', component: Tags },
-	{ path: '/editor', component: ReplItEmbed },
+	{ path: '/tags/:id', component: Tag },
 ];
 
 const adminRoutes = [

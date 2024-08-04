@@ -111,10 +111,10 @@ export class PostService {
     }
   }
   async findAllPost(): Promise<Posts[]> {
-    return this.postModel.find().exec();
+    return this.postModel.find().populate('topic').exec();
   }
   async findPostById(id: string): Promise<Posts> {
-    const post = await this.postModel.findById(id).exec();
+    const post = await this.postModel.findById(id).populate('topic').exec();
     if (!post) {
       throw new Error(`Course with ID ${id} not found`);
     }
