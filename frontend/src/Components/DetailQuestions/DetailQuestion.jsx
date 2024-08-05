@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Image, Button } from 'antd';
+import { Image, Button ,Modal,Select} from 'antd';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import './style.css';
 import CommentSection from '../Comment/CommentSection';
 import axiosConfig from '../../config/axiosConfig';
+import Report from '../Report/Report';
 
 function DetailQuestion() {
 	const [question, setQuestion] = useState();
 	const [value, setValue] = useState();
     const {id}=useParams();
+	
 useEffect(()=>{
     const getQuestion=async()=>{
         const res=await axiosConfig.get(`/posts/${id}`)
@@ -44,7 +46,9 @@ useEffect(()=>{
 								<p className="mb-4" dangerouslySetInnerHTML={{ __html: question && question.content }}>
 								
 								</p>
-							
+								<div>
+								<Report />
+								</div>
 								<div className="pt-4 App">
 									<h2 className="text-xl uppercase mb-4 text-left">
 										Your Answer

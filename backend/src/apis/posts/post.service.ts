@@ -111,10 +111,10 @@ export class PostService {
     }
   }
   async findAllPost(): Promise<Posts[]> {
-    return this.postModel.find().populate('topic').populate('media').exec();
+    return  this.postModel.find().populate('topic').populate('media').exec();
   }
   async findPostById(id: string): Promise<Posts> {
-    const post = await this.postModel.findById(id).populate('topic').populate('media').exec();
+    const post = await this.postModel.findById(id).populate('topic').populate('user').populate('media').exec();
     if (!post) {
       throw new Error(`Course with ID ${id} not found`);
     }
@@ -227,14 +227,14 @@ export class PostService {
   }
   async findAllReply(): Promise<Reply[]> {
     try {
-      return await this.replyModel.find().exec();
+      return  this.replyModel.find().populate('media');
     } catch (error) {
       console.error('Error fetching replies:', error);
       throw new Error('Error fetching replies');
     }
   }
   async findReplyById(id: string): Promise<Reply> {
-    const reply = await this.replyModel.findById(id).exec();
+    const reply = await this.replyModel.findById(id).populate('media').exec();
     if (!reply) {
       throw new Error(`Course with ID ${id} not found`);
     }

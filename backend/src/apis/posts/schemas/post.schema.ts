@@ -33,7 +33,7 @@ export type PostsDocument = Posts & Document;
 
 @Schema({ timestamps: true })
 export class Posts {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: mongoose.Schema.Types.ObjectId;
 
   @Prop({ type: String })
@@ -76,6 +76,8 @@ export class Posts {
 
   @Prop({ type: Date, default: Date.now })
   date: Date;
+  @Prop({ default: false })
+  hide?: Boolean;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Posts);
@@ -84,7 +86,7 @@ export const PostSchema = SchemaFactory.createForClass(Posts);
 
 @Schema({ timestamps: true })
 export class Reply {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   user: mongoose.Schema.Types.ObjectId;
 
   @Prop({ type: String })

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrash,faEyeSlash,faFlag } from '@fortawesome/free-solid-svg-icons';
 import ConfirmationModal from '../../Components/ConfirmationModal/ConfirmationModal';
 
 function Reports() {
@@ -15,8 +15,8 @@ function Reports() {
 	useEffect(() => {
 		async function fetchData() {
 			try {
-				const res=await axios.get('/posts/topic')
-                setGenres(res.data.data)
+				const res=await axios.get('/reports')
+                setGenres(res.data)
 			} catch (error) {
 				console.error('Error fetching data:', error);
 			}
@@ -47,18 +47,20 @@ function Reports() {
 			console.error('Error deleting ', error);
 		}
 	};
+const handleHidePost = async () => {
+try {
+	const hidePost=await axios.put(`/posts/${selectedGenre._id}`)
 
+	toast.success('Post hidden successfully!');
+} catch (error) {
+	console.log(error);
+	
+}
+}
   
 	return (
 		<section>
-			<Link to={'/admin/genres/add-genre'}>
-				<button
-					type="button"
-					className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-				>
-					Add tag
-				</button>
-			</Link>
+			
 			<div className="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-white shadow-md rounded-xl bg-clip-border">
 				<table className="w-full text-left table-auto min-w-max">
 					<thead>
@@ -70,13 +72,18 @@ function Reports() {
 							</th>
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Tag
+									User
 								</p>
 							</th>
 						
 							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
 								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
-									Description
+									Question
+								</p>
+							</th>
+							<th className="p-4 border-b border-blue-gray-100 bg-blue-gray-50">
+								<p className="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+									Reason
 								</p>
 							</th>
 						
@@ -99,7 +106,7 @@ function Reports() {
 						</tr>
 					</thead>
 					<tbody>
-						{genres.map((genre, index) => (
+						{genres?.map((genre, index) => (
 							<tr key={index}>
 								<td className="p-4 border-b border-blue-gray-50">
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
@@ -109,13 +116,19 @@ function Reports() {
 								<td className="p-4 border-b border-blue-gray-50">
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
 										
-                                    {genre && genre.name}
+                                    {genre && genre?.user?.username}
 									</p>
 								</td>
 								<td className="p-4 border-b border-blue-gray-50">
 									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
 										
-                                    {genre && genre.description}
+                                    {genre && genre?.post?.title}
+									</p>
+								</td>
+								<td className="p-4 border-b border-blue-gray-50">
+									<p className="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+										
+                                    {genre && genre?.reason}
 									</p>
 								</td>
 								
@@ -132,25 +145,26 @@ function Reports() {
 									</p>
 								</td>
 								<td className="p-4 border-b border-blue-gray-50">
-									<Link
-										to={`/admin/genres/edit-genre/${genre._id}`}
+								<button
+								title='Delete report' 
+										onClick={() => handleDelete(genre)}
+										className="text-white bg-blue-700 text-xs font-medium hover:bg-blue-800 focus:ring-4 focus:ring-red-300 rounded-lg px-2 py-2 me-1 mb-2"
 									>
-										{' '}
-										<button
-											type="button"
-											className="text-white bg-blue-700 text-xs font-medium hover:bg-blue-800 focus:ring-4 focus:ring-blue-300  rounded-lg  px-2 py-2 me-1 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-										>
-											<FontAwesomeIcon
-												icon={faPenToSquare}
-											/>
-										</button>
-									</Link>
+										<FontAwesomeIcon icon={faFlag} />
+									</button>
+									<button
+										onClick={() => handleHidePost(genre)}
+										className="text-white bg-yellow-500 text-xs font-medium hover:bg-yellow-800 focus:ring-4 focus:ring-red-300 rounded-lg px-2 py-2 me-1 mb-2"
+									>
+										<FontAwesomeIcon icon={faEyeSlash} />
+									</button>
 									<button
 										onClick={() => handleDelete(genre)}
 										className="text-white bg-red-700 text-xs font-medium hover:bg-red-800 focus:ring-4 focus:ring-red-300 rounded-lg px-2 py-2 me-1 mb-2"
 									>
 										<FontAwesomeIcon icon={faTrash} />
 									</button>
+								
 
 									<ConfirmationModal
 										isOpen={isConfirmationOpen}

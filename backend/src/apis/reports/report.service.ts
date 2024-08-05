@@ -17,7 +17,7 @@ export class ReportService {
 
   ) {}
   async createReport(createReportDto: CreateReportDto): Promise<Report> {
-    const { user, post, reason, details } = createReportDto;
+    const { user, post, reason } = createReportDto;
     
     const postExists = await this.postsModel.findById(post).exec();
     if (!postExists) {
@@ -28,7 +28,7 @@ export class ReportService {
       user,
       post,
       reason,
-      details,
+     
     });
     return report.save();
   }

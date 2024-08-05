@@ -1,0 +1,4 @@
+.ant-modal-footer >.ant-btn+.ant-btn {
+    margin-inline-start: 8px;
+    background-color:black;
+}

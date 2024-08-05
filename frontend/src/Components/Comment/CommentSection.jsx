@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { ref, onValue, set, remove, update } from 'firebase/database';
 import { database } from '../../firebase/config';
-
 import './Comment.css';
 import getUsersFromLocalStorage from '../../utils/getDataUser';
 import axiosConfig from '../../config/axiosConfig';
+import { isLogin } from '../../Service/Auth/Api';
 
 function CommentSection({ idArticle }) {
   const [comments, setComments] = useState([]);
@@ -13,7 +13,6 @@ function CommentSection({ idArticle }) {
   const [replyContent, setReplyContent] = useState('');
   const [replyToCommentId, setReplyToCommentId] = useState(null);
   const [users, setUsers] = useState({}); // State to store user information
-
   const idUser = getUsersFromLocalStorage()._id;
 
   // Fetch comments and filter by idArticle
@@ -177,8 +176,9 @@ function CommentSection({ idArticle }) {
             />
           </div>
           <button
+          disabled={!isLogin()}
             type="submit"
-            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+            className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800 disabled:bg-gray-400 cursor-not-allowed"
           >
             {editingCommentId ? 'Update comment' : 'Post comment'}
           </button>
@@ -194,8 +194,9 @@ function CommentSection({ idArticle }) {
         </form>
         {comments?.map((comment) => {
           const user = users?.find((u) => u._id === comment?.idUser);
-         
+          const idUser = getUsersFromLocalStorage()._id;
           
+     
           return (
             <article key={comment.id} className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
               <footer className="flex justify-between items-center mb-2">
@@ -239,6 +240,7 @@ function CommentSection({ idArticle }) {
                     </form>
                   ) : (
                     <>
+                    
                       <button
                         type="button"
                         className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"

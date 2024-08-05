@@ -12,8 +12,6 @@ export class Report {
   @Prop({ type: String, required: true })
   reason: string;
 
-  @Prop({ type: String })
-  details?: string;
 
   @Prop({ type: Date, default: Date.now })
   reportedAt: Date;
