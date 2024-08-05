@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import {  useParams } from 'react-router-dom';
 import axios from '../../config/axiosConfig';
-import CardsBooks from '../CardsBooks/CarsBooks';
 
 function Genres() {
 	const { id: genreId } = useParams();
@@ -36,7 +35,7 @@ function Genres() {
 					role="presentation"
 				></span>
 			</h2>
-			<CardsBooks genreId={genreId} />
+		
 		</section>
 	);
 }

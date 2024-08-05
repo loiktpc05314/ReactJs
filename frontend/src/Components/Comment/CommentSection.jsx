@@ -1,30 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import { ref, onValue, set, remove, update } from 'firebase/database';
 import { database } from '../../firebase/config';
-import './Comment.css';
 
-function CommentSection() {
+import './Comment.css';
+import getUsersFromLocalStorage from '../../utils/getDataUser';
+import axiosConfig from '../../config/axiosConfig';
+
+function CommentSection({ idArticle }) {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState('');
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [replyContent, setReplyContent] = useState('');
   const [replyToCommentId, setReplyToCommentId] = useState(null);
+  const [users, setUsers] = useState({}); // State to store user information
 
-  const idArticle = 'article123';
-  const idUser = 'user123';
+  const idUser = getUsersFromLocalStorage()._id;
 
+  // Fetch comments and filter by idArticle
   useEffect(() => {
     const commentsRef = ref(database, 'comments');
     onValue(commentsRef, (snapshot) => {
       const data = snapshot.val();
       if (data) {
-        const commentsList = Object.keys(data).map((key) => ({
-          id: key,
-          ...data[key],
-        }));
+        const commentsList = Object.keys(data)
+          .map((key) => ({
+            id: key,
+            ...data[key],
+          }))
+          .filter((comment) => comment.idArticle === idArticle);
         setComments(commentsList);
       }
     });
+  }, [idArticle]);
+
+  // Fetch user data
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axiosConfig.get('/users');
+        const usersData = response.data.data;
+      console.log(usersData);
+      
+        setUsers(usersData);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+    fetchUsers();
   }, []);
 
   const handleAddComment = (e) => {
@@ -32,7 +54,7 @@ function CommentSection() {
     const commentContent = newComment.trim();
 
     if (commentContent === '') {
-      alert('Comment cannot be empty');
+      console.error('Comment cannot be empty');
       return;
     }
 
@@ -46,7 +68,7 @@ function CommentSection() {
       timestamp: Date.now(),
     })
       .then(() => {
-        setNewComment(''); 
+        setNewComment('');
       })
       .catch((error) => {
         console.error('Error adding comment: ', error);
@@ -66,7 +88,7 @@ function CommentSection() {
     const updatedContent = newComment.trim();
 
     if (updatedContent === '') {
-      alert('Comment cannot be empty');
+      console.error('Comment cannot be empty');
       return;
     }
 
@@ -94,7 +116,7 @@ function CommentSection() {
     }
     remove(ref(database, `comments/${commentId}`))
       .then(() => {
-        alert('Comment deleted successfully');
+        console.log('Comment deleted successfully');
       })
       .catch((error) => {
         console.error('Error deleting comment: ', error);
@@ -109,7 +131,7 @@ function CommentSection() {
   const handleReply = (e) => {
     e.preventDefault();
     if (replyContent.trim() === '') {
-      alert('Reply cannot be empty');
+      console.error('Reply cannot be empty');
       return;
     }
     const replyId = Date.now();
@@ -170,127 +192,98 @@ function CommentSection() {
             </button>
           )}
         </form>
-        {comments.map((comment) => (
-          <article key={comment.id} className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
-            <footer className="flex justify-between items-center mb-2">
-              <div className="flex items-center">
-                <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-                  <img
-                    className="mr-2 w-6 h-6 rounded-full"
-                    src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                    alt="User"
-                  />
-                  User
-                </p>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  <time dateTime="2022-03-12" title="March 12th, 2022">
-                    {new Date(comment.timestamp).toLocaleDateString()}
-                  </time>
-                </p>
-              </div>
-              <div>
-                {editingCommentId === comment.id ? (
-                  <form onSubmit={handleUpdateComment}>
-                    <textarea
-                      value={newComment}
-                      onChange={(e) => setNewComment(e.target.value)}
-                      placeholder="Edit your comment..."
-                      className="w-full p-2 border rounded-lg mb-2"
+        {comments?.map((comment) => {
+          const user = users?.find((u) => u._id === comment?.idUser);
+         
+          
+          return (
+            <article key={comment.id} className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+              <footer className="flex justify-between items-center mb-2">
+                <div className="flex items-center">
+                  <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                    <img
+                      className="mr-2 w-6 h-6 rounded-full"
+                      src={user && user?.avatar || 'https://i.pravatar.cc/300' }
+                      alt="User"
                     />
-                    <button
-                      type="submit"
-                      className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                    >
-                      Update
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-gray-700 rounded-lg ml-2 hover:bg-gray-800"
-                      onClick={handleCancelEdit}
-                    >
-                      Cancel
-                    </button>
-                  </form>
-                ) : (
-                  <div>
-                    <button
-                      type="button"
-                      className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-700 rounded-lg hover:bg-red-800 dark:bg-red-600 dark:hover:bg-red-700"
-                      onClick={() => handleDeleteComment(comment.id)}
-                    >
-                      Delete
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-green-700 rounded-lg hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700"
-                      onClick={() => setReplyToCommentId(comment.id)}
-                    >
-                      Reply
-                    </button>
-                    <button
-                      type="button"
-                      className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-yellow-700 rounded-lg hover:bg-yellow-800 dark:bg-yellow-600 dark:hover:bg-yellow-700"
-                      onClick={() => handleEditClick(comment.id)}
-                    >
-                      Edit
-                    </button>
-                  </div>
-                )}
-              </div>
-            </footer>
-            {replyToCommentId === comment.id && (
-              <form onSubmit={handleReply}>
-                <textarea
-                  value={replyContent}
-                  onChange={handleReplyChange}
-                  placeholder="Write a reply..."
-                  className="w-full p-2 border rounded-lg mb-2"
-                />
-                <button
-                  type="submit"
-                  className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
-                >
-                  Reply
-                </button>
-              </form>
-            )}
-            <div className="text-gray-500 dark:text-gray-400">
-              {comment.content}
-            </div>
-            {comment.replies &&
-              comment.replies.map((replyId) => {
-                const reply = comments.find(c => c.id === replyId);
-                return reply ? (
-                  <article
-                    style={{ marginLeft: '40px' }}
-                    key={reply.id}
-                    className="p-4 mb-4 text-base bg-gray-100 rounded-lg dark:bg-gray-800"
+                    {user?.username || 'User'}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    <time dateTime="2022-03-12" title="March 12th, 2022">
+                      {new Date(comment.timestamp).toLocaleDateString()}
+                    </time>
+                  </p>
+                </div>
+                <div>
+                  {editingCommentId === comment.id ? (
+                    <form onSubmit={handleUpdateComment}>
+                      <textarea
+                        value={newComment}
+                        onChange={(e) => setNewComment(e.target.value)}
+                        placeholder="Edit your comment..."
+                        className="w-full p-2 border rounded-lg mb-2"
+                      />
+                      <button
+                        type="submit"
+                        className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                      >
+                        Update
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-gray-700 rounded-lg ml-2 hover:bg-gray-800"
+                        onClick={handleCancelEdit}
+                      >
+                        Cancel
+                      </button>
+                    </form>
+                  ) : (
+                    <>
+                      <button
+                        type="button"
+                        className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800"
+                        onClick={() => handleEditClick(comment.id)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-red-700 rounded-lg ml-2 hover:bg-red-800"
+                        onClick={() => handleDeleteComment(comment.id)}
+                      >
+                        Delete
+                      </button>
+                      <button
+                        type="button"
+                        className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-green-700 rounded-lg ml-2 hover:bg-green-800"
+                        onClick={() => setReplyToCommentId(comment.id)}
+                      >
+                        Reply
+                      </button>
+                    </>
+                  )}
+                </div>
+              </footer>
+              <p>{comment.content}</p>
+              {replyToCommentId === comment.id && (
+                <form onSubmit={handleReply}>
+                  <textarea
+                    value={replyContent}
+                    onChange={handleReplyChange}
+                    placeholder="Write your reply..."
+                    className="w-full p-2 border rounded-lg mb-2"
+                  />
+                  <button
+                    type="submit"
+                    className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-700 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
                   >
-                    <footer className="flex justify-between items-center mb-2">
-                      <div className="flex items-center">
-                        <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-                          <img
-                            className="mr-2 w-6 h-6 rounded-full"
-                            src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
-                            alt="User"
-                          />
-                          User
-                        </p>
-                        <p className="text-sm text-gray-600 dark:text-gray-400">
-                          <time dateTime="2022-03-12" title="March 12th, 2022">
-                            {new Date(reply.timestamp).toLocaleDateString()}
-                          </time>
-                        </p>
-                      </div>
-                    </footer>
-                    <div className="text-gray-500 dark:text-gray-400">
-                      {reply.content}
-                    </div>
-                  </article>
-                ) : null;
-              })}
-          </article>
-        ))}
+                    Post Reply
+                  </button>
+                </form>
+              )}
+            </article>
+          );
+        })}
       </div>
     </section>
   );

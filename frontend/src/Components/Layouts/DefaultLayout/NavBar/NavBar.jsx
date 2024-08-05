@@ -7,18 +7,21 @@ import SearchBooks from './Search/Search';
 import handleLogout from '../../../Logout/Logout';
 import { Avatar, Dropdown } from "flowbite-react";
 import Cookies from 'js-cookie';
+import { isLogin } from '../../../../Service/Auth/Api';
 
 
 function Navbar() {
 	const [user, setUser] = useState();
 	const [token, setToken] = useState();
+	const [login,setIsLogin]=useState()
 	useEffect(() => {
 		const userData = localStorage.getItem('user');
 		if (userData) setUser(JSON.parse(userData));
 
 		let token = Cookies.get('token');
 		if (token) setToken(token);
-
+		setIsLogin(isLogin());
+		
 	}, []);
 
 	return (
@@ -132,6 +135,17 @@ function Navbar() {
 								Users
 							</Link>
 						</li>
+						{
+							login && 
+						<li>
+							<Link
+								to="/ask"
+								className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+							>
+								Ask question
+							</Link>
+						</li>
+						}
 					</ul>
 				</div>
 			</div>

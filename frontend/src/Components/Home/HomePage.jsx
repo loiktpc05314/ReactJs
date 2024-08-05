@@ -129,24 +129,22 @@ const HomePage = () => {
 					</div>
 				</div>
 			</div>
-			<h2>
-				With Be Solution
-			</h2>
-			<div className='my-4'>
-<div className='flex justify-around'>
-<div>
-	<h2 className='text-4xl font-bold'>Questions</h2>
-	<p className='text-center'>4000/day</p>
-</div>
-<div>
-	<h2 className='text-4xl font-bold'>Online</h2>
-	<p className='text-center'>10000/day</p>
-</div>
-<div>
-	<h2 className='text-4xl font-bold'>Partner</h2>
-	<p className='text-center'>3000</p>
-</div>
-</div>
+			<h2>With Be Solution</h2>
+			<div className="my-4">
+				<div className="flex justify-around">
+					<div>
+						<h2 className="text-4xl font-bold">Questions</h2>
+						<p className="text-center">4000/day</p>
+					</div>
+					<div>
+						<h2 className="text-4xl font-bold">Online</h2>
+						<p className="text-center">10000/day</p>
+					</div>
+					<div>
+						<h2 className="text-4xl font-bold">Partner</h2>
+						<p className="text-center">3000</p>
+					</div>
+				</div>
 			</div>
 			<h2>
 				Explore technical topics and other disciplines across 170+ Q&A
@@ -163,7 +161,6 @@ const HomePage = () => {
 				<img className="hover:opacity-75" src={icon7} />
 				<img className="hover:opacity-75" src={icon8} />
 			</div>
-			
 		</section>
 	);
 };
